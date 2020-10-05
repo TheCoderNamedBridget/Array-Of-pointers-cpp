@@ -2,6 +2,7 @@
 //written by Bridget Naylor for lab 2
 #include "myDate.h"
 #include <iostream>
+#include<string>  
 using namespace std;
 
 int Greg2Julian( int mon, int day, int year )//pass m, d, y return julian
@@ -60,7 +61,8 @@ myDate::myDate( int M, int D, int Y )
     year = Y;
 }
 
-void myDate::display()
+
+string myDate::display()
 {
     string m;
     if ( month == 1 )
@@ -111,7 +113,10 @@ void myDate::display()
     {
         m = "December";
     }
-    cout<<m<<" "<<day<<", "<<year;
+    string days = to_string(day);
+    string years = to_string(year);
+    string date =  m + " " + days + ", " + years;
+    return( date );
 }
 
 void myDate::increaseDate( int n )
@@ -200,6 +205,26 @@ string myDate::dayName()//return day of week, mondy, tuesday,...
     }
     return dayName;
 }
+
+
+// myDate myDate::returnDateBetween( myDate first, myDate second )
+// {
+    
+//     if ( ( first.getYear() < second.getYear() ) ||  ( first.getYear() == second.getYear() && first.getMonth() < second.getMonth() ) || 
+//     ( first.getYear() == second.getYear() && first.getMonth() == second.getMonth() && first.getDay() < second.getDay() )
+//     {
+        
+//         myDate newDate( first.getMonth(), first.getDay() + 1, first.getYear());
+//         return newDate;
+//     }
+//     else ( ( second.getYear() < first.getYear() ) ||  ( second.getYear() == first.getYear() && second.getMonth() < first.getMonth() ) || 
+//     ( second.getYear() == first.getYear() && second.getMonth() == first.getMonth() && second.getDay() < first.getDay() )
+//     {
+        
+//         myDate newDateSecond( second.getMonth(), second.getDay() + 1, second.getYear());
+//         return newDateSecond;
+//     }
+// }
 
 
 
