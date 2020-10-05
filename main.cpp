@@ -29,6 +29,7 @@ void populate( Student *records[] )
     }
     myDate birthdate( 6, 21, 2002 );
     records[0] -> SID = 1234;
+    cout<<"thesid 0 "<<records[0] -> SID<<endl;
     strcpy(records[0] -> name, "Stacy Lawerence");
     records[0] -> hometown = "Burlingame";
     records[0] -> birthday = birthdate;
@@ -117,10 +118,57 @@ void display( Student *ptrs[], int size )
     for ( int i = 0; i < size; i++ )
     {
         
-        cout<<left<<setw(20) << ptrs[i] -> name<<  ' ' <<left<<setw(20)<< ptrs[i]-> SID <<   ' ' <<left<<setw(20) <<ptrs[i] -> 
-        grade<<   ' ' <<left<<setw(20) << ptrs[i] -> grade <<  ' '<<left<<setw(20) <<ptrs[i]->hometown<<   ' '<< endl << endl;
+        cout<<left<<setw(20) << ptrs[i] -> name<<  ' ' <<left<<setw(20)<< ptrs[i]->SID <<   ' ' <<left<<setw(20) <<ptrs[i] -> 
+        grade<<   ' ' <<left<<setw(20) << ptrs[i] -> birthday.display() <<  ' '<<left<<setw(20) <<ptrs[i]->hometown<<   ' '<< endl << endl;
         
     }
+    
+}
+
+//Sorting functions
+
+void sortByName()
+{
+    
+}
+
+void sortByID()
+{
+    
+}
+
+void sortByGrade( int size, Student *ptrs[] )//Done :D
+{
+    bool swapped = true;
+    while ( swapped )
+    {
+        swapped = false;
+        for ( int i = 0; i < size - 1; i++ )
+        {
+            
+            Student * student1 = ptrs[i];
+            Student * student2 = ptrs[i + 1];
+            cout<<"valueStudent 1 = "<<student1->name<<" grade "<<student1->grade<<" minStudent2 = "<<student2->name<<" grade "<<student2 ->grade<<endl;
+            if ( student1 -> grade > student2 -> grade )
+            {
+                Student * temp = student1;
+                
+                ptrs[i] = student2;
+                ptrs[i + 1] = temp;
+                swapped = true;
+            }
+            cout<<" Swapped "<<swapped<<endl;
+        }
+    }
+}
+
+void sortByBirthday( int size, Student *ptrs[] )
+{
+    
+}
+
+void sortByHometown()
+{
     
 }
 
@@ -130,7 +178,9 @@ int main()
     
     Student *arrayOfStudentPointers[numStudents];//size 10
     populate( arrayOfStudentPointers );
-    //display( arrayOfStudentPointers, numStudents );
+    
+    cout<<"Variable Cray "<<arrayOfStudentPointers[0] -> name<<endl;
+    display( arrayOfStudentPointers, numStudents );
     
     int userInput;
     cout<<"1) Display list sorted by Name"<<endl;
@@ -140,7 +190,32 @@ int main()
     cout<<"5) Display list sorted by Hometown"<<endl;
     cout<<"6) Exit"<<endl;
     cin>>userInput;
-    
+    if ( userInput == 6)
+    {
+        exit;
+    }
+    else if (userInput == 5 )
+    {
+        //sort by hometown
+    }
+    else if (userInput == 4 )
+    {
+        //sort by birthday
+    }
+    else if (userInput == 3 )
+    {
+        //sort by grade
+        sortByGrade( numStudents, arrayOfStudentPointers );
+        display( arrayOfStudentPointers, numStudents );
+    }
+    else if (userInput == 2 )
+    {
+        //sort by ID
+    }
+    else if (userInput == 1 )
+    {
+        //sort by name
+    }
     
 
     return 0;
