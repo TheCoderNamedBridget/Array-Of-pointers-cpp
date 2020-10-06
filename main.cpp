@@ -5,7 +5,6 @@ Calss
 Honesty statement:
 */
 #include <stdio.h>
-#include "myDate.h"
 #include <iostream>
 #include <string.h>
 #include <string>
