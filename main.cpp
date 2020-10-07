@@ -1,15 +1,19 @@
 /*
 Bridget Naylor
-Date:
-Calss
+Date:10/6/2020
+Class: CECS 282 Section 04
 Honesty statement:
+I certify that this program is my own original work. I did not copy any part of this program from
+any other source. I further certify that I typed each and every line of code in this program.
 */
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
 #include <string>
+#include <cstring>
 #include <iomanip>
 using namespace std;
+
 class myDate
 {
     private:
@@ -60,7 +64,6 @@ void Julian2Greg( int JD, int & month, int & day, int & year )//pass in julian d
     year = I;
     month = J;
     day = K;
-    //cout<<month<<" "<<day<<" "<<year<<endl;
 }
 
 myDate::myDate()
@@ -234,142 +237,108 @@ string myDate::dayName()//return day of week, mondy, tuesday,...
 }
 
 
-// myDate myDate::returnDateBetween( myDate first, myDate second )
-// {
+myDate returnDateBetween( myDate first, myDate second )//use random number generate fr this
+{
+    myDate biggerDate;
+    int randomMonth;
+    int randomDay;
+    int randomYear;
     
-//     if ( ( first.getYear() < second.getYear() ) ||  ( first.getYear() == second.getYear() && first.getMonth() < second.getMonth() ) || 
-//     ( first.getYear() == second.getYear() && first.getMonth() == second.getMonth() && first.getDay() < second.getDay() )
-//     {
+    if ( ( first.getYear() < second.getYear() ) ||  ( first.getYear() == second.getYear() && first.getMonth() < second.getMonth() ) || 
+    ( first.getYear() == second.getYear() && first.getMonth() == second.getMonth() && first.getDay() < second.getDay() ))
+    {
+        biggerDate = second;
+        randomYear = (rand() % (second.getYear() - first.getYear())) + first.getYear();
+    }
+    else if( ( second.getYear() < first.getYear() ) ||  ( second.getYear() == first.getYear() && second.getMonth() < first.getMonth() ) || 
+    ( second.getYear() == first.getYear() && second.getMonth() == first.getMonth() && second.getDay() < first.getDay() ))
+    {
         
-//         myDate newDate( first.getMonth(), first.getDay() + 1, first.getYear());
-//         return newDate;
-//     }
-//     else ( ( second.getYear() < first.getYear() ) ||  ( second.getYear() == first.getYear() && second.getMonth() < first.getMonth() ) || 
-//     ( second.getYear() == first.getYear() && second.getMonth() == first.getMonth() && second.getDay() < first.getDay() )
-//     {
-        
-//         myDate newDateSecond( second.getMonth(), second.getDay() + 1, second.getYear());
-//         return newDateSecond;
-//     }
-// }
+        biggerDate = first;
+        randomYear = (rand() % (first.getYear() - second.getYear())) + second.getYear();
+    }
+    bool dayValid = false;
+    while( !dayValid )
+    {
+        randomMonth = (rand() % 11) + 1;
+        randomDay = (rand() % 30) + 1;
+        myDate dateBetween( randomMonth, randomDay, randomYear);
+        myDate defaultDate( 5, 11, 1959);
+        if ( dateBetween.getYear() != defaultDate.getYear() && dateBetween.getMonth() != defaultDate.getMonth() && dateBetween.getDay() != defaultDate.getDay() )
+        {
+            return dateBetween;
+        }
+    }
+    
+    
+}
 //Create student struct
 struct Student
 {
-    char name[10];//cstring means index 9 is '/0', can fit 9 characters
+    char name[15];//cstring means index 9 is '/0', can fit 9 characters
     int SID;//student id
     char grade;
     myDate birthday;
     string hometown;
 };//remember structs are like classes and end with semicolons
 
-void populate( Student *records[] )
+void populate( Student *records[] )//generate ids randomly
 {
+    string hometowns[10]={"Burlingame", "MileRanch", "CottonCandyTown", "Burmingham", "Shan Gong", "Jamestown", "Singapore", "JKTown", "Anchorage", "Bangali"};
+    char grades[10] = {'F','B','A','F','A','A','B','C','D','A'};
+    char names[11][20] = { "Stacy Lawerence", "Eninem D12", "Timmy Narkowitz", "Felipe Smith", "Li You Hua", "Isiah Palo", "Cecilia KimKim", "Pengu Fang", "Kylie Polar", "Swati Thurumaran"};
+    myDate bday1( 1, 1, 1998 );
+    myDate bday2( 12, 28, 2001 );
+    myDate birthdayChosen;
+    srand(time(NULL));
     for ( int i = 0; i < 10; i++ )
     {
+        birthdayChosen = returnDateBetween( bday1, bday2 );
+        int randomID = rand() % 8999 + 1000;
         records[i] = new Student;//allocate students
+        records[i] -> SID = randomID;
+        records[i]->birthday = birthdayChosen;
+        records[i]->hometown = hometowns[i];
+        records[i]->grade = grades[i];
+        strcpy(records[i] -> name, names[i]);
     }
-    myDate birthdate( 10, 10, 2000 );
-    records[0] -> SID = 1234;
-    cout<<"thesid 0 "<<records[0] -> SID<<endl;
-    strcpy(records[0] -> name, "Stacy Lawerence");
-    records[0] -> hometown = "Burlingame";
-    records[0] -> birthday = birthdate;
-    //birthdate.display();
-    records[0] -> grade = 'F';
-    
-    
-    myDate birthdate1( 7, 19, 2000 );
-    records[1] -> SID = 5678;
-    strcpy(records[1] -> name, "Eninem D12");
-    records[1] -> hometown = "8MileRanch";
-    records[1] -> birthday = birthdate1;
-    //birthdate.display();
-    records[1] -> grade = 'A';
-    
-    myDate birthdate2( 3, 14, 2002 );
-    records[2] -> SID = 9101;
-    strcpy(records[2] -> name, "Timmy Narkowitz");
-    records[2] -> hometown = "CottonCandyTown";
-    records[2] -> birthday = birthdate2;
-    //birthdate.display();
-    records[2] -> grade = 'B';
-    
-    myDate birthdate3( 6, 21, 2001 );
-    records[3] -> SID = 1213;
-    strcpy(records[3] -> name, "Felipe Smith");
-    records[3] -> hometown = "Burmingham";
-    records[3] -> birthday = birthdate3;
-    //birthdate.display();
-    records[3] -> grade = 'A';
-    
-    myDate birthdate4( 12, 2, 1999 );
-    records[4] -> SID = 4252;
-    strcpy(records[4] -> name, "Li You Hua");
-    records[4] -> hometown = "Shan Gong";
-    records[4] -> birthday = birthdate4;
-    //birthdate.display();
-    records[4] -> grade = 'C';
-    
-    myDate birthdate5( 8, 11, 2001 );
-    records[5] -> SID = 5663;
-    strcpy(records[5] -> name, "Isiah Palo");
-    records[5] -> hometown = "Jamestown";
-    records[5] -> birthday = birthdate5;
-    //birthdate.display();
-    records[5] -> grade = 'D';
-    
-    myDate birthdate6( 10, 1, 2000 );
-    records[6] -> SID = 2244;
-    strcpy(records[6] -> name, "Cecilia KimKim");
-    records[6] -> hometown = "Singapore";
-    records[6] -> birthday = birthdate6;
-    //birthdate.display();
-    records[6] -> grade = 'A';
-    
-    myDate birthdate7( 6, 4, 2003 );
-    records[7] -> SID = 5344;
-    strcpy(records[7] -> name, "Pengu Fang");
-    records[7] -> hometown = "JKTown";
-    records[7] -> birthday = birthdate7;
-    //birthdate.display();
-    records[7] -> grade = 'D';
-    
-    myDate birthdate8( 1, 21, 2002 );
-    records[8] -> SID = 4523;
-    strcpy(records[8] -> name, "Kylie Polar");
-    records[8] -> hometown = "Anchorage";
-    records[8] -> birthday = birthdate8;
-    //birthdate.display();
-    records[8] -> grade = 'B';
-    
-    myDate birthdate9( 5, 29, 2000 );
-    records[9] -> SID = 6575;
-    strcpy(records[9] -> name, "Swati Thurumaran");
-    records[9] -> hometown = "Bangali";
-    records[9] -> birthday = birthdate9;
-    //birthdate.display();
-    records[9] -> grade = 'B';
-
 }
 
 void display( Student *ptrs[], int size )
 {
     cout<<left<< setw(20) <<"Name:" <<  ' ' <<left<<setw(20) << "SID:" <<   ' ' <<left<<setw(20) <<"Grade:" << 
-      ' ' <<left<<setw(20) <<"Birthday:" <<  ' ' <<left<<setw(20) <<"Hometown:" <<   ' '<< endl << endl;
+      ' ' <<left<<setw(20) <<"Birthday:" <<  ' ' <<left<<setw(20) <<"Hometown:" <<   ' '<<endl;
     for ( int i = 0; i < size; i++ )
     {
         
         cout<<left<<setw(20) << ptrs[i] -> name<<  ' ' <<left<<setw(20)<< ptrs[i]->SID <<   ' ' <<left<<setw(20) <<ptrs[i] -> 
-        grade<<   ' ' <<left<<setw(20) << ptrs[i] -> birthday.display() <<  ' '<<left<<setw(20) <<ptrs[i]->hometown<<   ' '<< endl << endl;
+        grade<<   ' ' <<left<<setw(20) << ptrs[i] -> birthday.display() <<  ' '<<left<<setw(20) <<ptrs[i]->hometown<<   ' '<< endl;
         
     }
     
 }
 
 //Sorting functions
-
 void sortByName( int size, Student *ptrs[] )
 {
+    bool swapped = true;
+    while ( swapped )
+    {
+        swapped = false;
+        for ( int i = 0; i < size - 1; i++ )
+        {
+            bool First = strcmp( ptrs[i]->name, ptrs[1]->name) > 0;
+            if ( strcmp( ptrs[i]->name, ptrs[i+1]->name) > 0 )
+            {
+                Student * temp = ptrs[i];
+                
+                ptrs[i] = ptrs[i+1];
+                ptrs[i+1] = temp;
+                swapped = true;
+                cout<<"ptrs[0]"<<ptrs[i]->name<<endl;;
+            }
+        }
+    }
 }
 
 void sortByID( int size, Student *ptrs[] )
@@ -383,7 +352,7 @@ void sortByID( int size, Student *ptrs[] )
             
             Student * student1 = ptrs[i];
             Student * student2 = ptrs[i + 1];
-            //cout<<"valueStudent 1 = "<<student1->name<<" grade "<<student1->grade<<" minStudent2 = "<<student2->name<<" grade "<<student2 ->grade<<endl;
+            //cout<<"valueStudent 1 = "<<student1->name<<" SID "<<student1->SID<<" minStudent2 = "<<student2->name<<" SID "<<student2 ->SID<<endl;
             if ( student1 -> SID > student2 -> SID )
             {
                 Student * temp = student1;
@@ -392,7 +361,7 @@ void sortByID( int size, Student *ptrs[] )
                 ptrs[i + 1] = temp;
                 swapped = true;
             }
-            cout<<" Swapped "<<swapped<<endl;
+            //cout<<" Swapped "<<swapped<<endl;
         }
     }
 }
@@ -451,24 +420,21 @@ void sortByBirthday( int size, Student *ptrs[] )
 
 void sortByHometown( int size, Student *ptrs[] )
 {
-    // int iterationsOverStrings = false;
-    // for ( int i = 0; i < size - 1; i++ )
-    // {
-    //     if ( ( ptrs[i]->hometown.compare(ptrs[i]->hometown ) ) < 0 )//1 smaller than 2
-    //     {
-    //         first = false;
-    //     }
-    //     else 
-    //     {
-    //         first = true;
-    //     }
-        
-    //     if ( first )
-    //     {
-            
-    //     }
-    // }
-    
+    bool swapped = true;
+    while ( swapped )
+    {
+        swapped = false;
+        for ( int i = 0; i < size - 1; i++ )
+        {
+            if ( ptrs[i]->hometown > ptrs[i + 1]->hometown )
+            {
+                Student * temp = ptrs[i];
+                ptrs[i] = ptrs[i + 1];
+                ptrs[i + 1] = temp;
+                swapped = true;
+            }
+        }
+    }
 }
 
 int main( )
@@ -482,50 +448,57 @@ int main( )
     //display( arrayOfStudentPointers, numStudents );
     
     int userInput;
-    cout<<"1) Display list sorted by Name"<<endl;
-    cout<<"2) Display list sorted by Student ID"<<endl;
-    cout<<"3) Display list sorted by Grade"<<endl;
-    cout<<"4) Display list sorted by Birthday"<<endl;
-    cout<<"5) Display list sorted by Hometown"<<endl;
-    cout<<"6) Exit"<<endl;
-    cin>>userInput;
-    if ( userInput == 6)
+    bool quit = false;
+    while ( !quit )
     {
-        exit;
+        cout<<"1) Display list sorted by Name"<<endl;
+        cout<<"2) Display list sorted by Student ID"<<endl;
+        cout<<"3) Display list sorted by Grade"<<endl;
+        cout<<"4) Display list sorted by Birthday"<<endl;
+        cout<<"5) Display list sorted by Hometown"<<endl;
+        cout<<"6) Exit"<<endl;
+        cin>>userInput;
+        if ( userInput == 6)
+        {
+            quit = true;
+        }
+        else if (userInput == 5 )
+        {
+            //sort by hometown
+            sortByHometown( numStudents, arrayOfStudentPointers );
+            display( arrayOfStudentPointers, numStudents );
+        }
+        else if (userInput == 4 )//Done :D
+        {
+            //sort by birthday
+            sortByBirthday( numStudents, arrayOfStudentPointers );
+            display( arrayOfStudentPointers, numStudents );
+        }
+        else if (userInput == 3 )//Done :D
+        {
+            //sort by grade
+            sortByGrade( numStudents, arrayOfStudentPointers );
+            display( arrayOfStudentPointers, numStudents );
+        }
+        else if (userInput == 2 )//Done :D
+        {
+            //sort by ID
+            sortByID( numStudents, arrayOfStudentPointers );
+            display( arrayOfStudentPointers, numStudents );
+        }
+        else if (userInput == 1 )
+        {
+            //sort by name
+            sortByName( numStudents, arrayOfStudentPointers );
+            display( arrayOfStudentPointers, numStudents );
+        }
     }
-    else if (userInput == 5 )
-    {
-        //sort by hometown
-        sortByHometown( numStudents, arrayOfStudentPointers );
-        display( arrayOfStudentPointers, numStudents );
-    }
-    else if (userInput == 4 )//Done :D
-    {
-        //sort by birthday
-        sortByBirthday( numStudents, arrayOfStudentPointers );
-        display( arrayOfStudentPointers, numStudents );
-    }
-    else if (userInput == 3 )//Done :D
-    {
-        //sort by grade
-        sortByGrade( numStudents, arrayOfStudentPointers );
-        display( arrayOfStudentPointers, numStudents );
-    }
-    else if (userInput == 2 )//Done :D
-    {
-        //sort by ID
-        sortByID( numStudents, arrayOfStudentPointers );
-        display( arrayOfStudentPointers, numStudents );
-    }
-    else if (userInput == 1 )
-    {
-        //sort by name
-        sortByName( numStudents, arrayOfStudentPointers );
-        display( arrayOfStudentPointers, numStudents );
-    }
+    
     
 
     return 0;
 }
+
+
 
 
